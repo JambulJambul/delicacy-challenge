@@ -1,0 +1,55 @@
+@import '../../styles/base.scss';
+
+.main-box{
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.title-text{
+}
+
+.text-box{
+    background-color: aquamarine;
+    width: 80%;
+    margin: 5px;
+    border-radius: 5px;
+    border: red solid 10px;
+    padding: 10px;
+}
+
+.description-box{
+    height: 150px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.description-box::-webkit-scrollbar{
+    display: none;
+}
+
+.image-box{
+    position: absolute;
+    top: 15%;
+    right: 0;
+    z-index: 1;
+    height: 70%;
+}
+
+.item-image{
+    height: 100%;
+    max-width: 400px;
+}
+
+.ingredient-image-box{
+    width: 50px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ingredient-image{
+    width: 25px;
+    height: 25px;
+}

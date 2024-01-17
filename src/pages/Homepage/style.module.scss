@@ -1,0 +1,13 @@
+@import '../../styles/base.scss';
+
+.main-card-flex {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.main-card-flex::-webkit-scrollbar{
+    display: none;
+}
