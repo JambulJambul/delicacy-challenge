@@ -20,7 +20,7 @@ const Categories = ({ data }) => {
         <>
             <Box>
                 <Link to={`/${data.strCategory}`} onClick={handleClick}>
-                    <Button variant="text"><Typography variant="p">{data.strCategory}</Typography></Button>
+                    <Button variant="text"><Typography variant="p" color={"#404040"}>{data.strCategory}</Typography></Button>
                 </Link>
             </Box>
         </>

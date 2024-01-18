@@ -6,7 +6,7 @@ const Navbar = () => {
     return (
         <Box className={classes["navbar-box"]}>
             <Link to={'/'}>
-                <Typography variant="h4">
+                <Typography variant="h4" fontWeight={700} color={"#404040"}>
                     Delicacy
                 </Typography>
             </Link>

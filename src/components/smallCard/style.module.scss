@@ -26,11 +26,11 @@
 
 .text-box {
     border-radius: 10px;
-    background-color:antiquewhite;
+    background-color:$sea-blue;
     display: flex;
     flex-direction: column;
     justify-content: end;
-    border: aquamarine solid 10px;
+    border: $white solid 10px;
     box-shadow: 2.158px 3.237px 11.87px 0px rgba(0, 0, 0, 0.14);
 }
 

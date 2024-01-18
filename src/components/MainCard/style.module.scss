@@ -5,16 +5,14 @@
     flex: 0 0 auto;
 }
 
-.title-text{
-}
-
 .text-box{
-    background-color: aquamarine;
+    background-color: $sea-blue;
     width: 80%;
     margin: 5px;
-    border-radius: 5px;
-    border: red solid 10px;
-    padding: 10px;
+    border-radius: 25px;
+    border: $white solid 10px;
+    padding: 20px;
+    box-shadow: 2.158px 3.237px 11.87px 0px rgba(0, 0, 0, 0.14);
 }
 
 .description-box{
@@ -26,6 +24,13 @@
 
 .description-box::-webkit-scrollbar{
     display: none;
+}
+
+.button-box{
+    width: 100%;
+    button{
+        width: 100%;
+    }
 }
 
 .image-box{

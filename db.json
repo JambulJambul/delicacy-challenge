@@ -1,1 +1,34 @@
-{}
+{
+  "posts": [
+    {
+      "id": "52874",
+      "idMeal": "52874",
+      "strMeal": "Beef and Mustard Pie",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/sytuqu1511553755.jpg"
+    },
+    {
+      "id": "52873",
+      "idMeal": "52873",
+      "strMeal": "Beef Dumpling Stew",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/uyqrrv1511553350.jpg"
+    },
+    {
+      "id": "52895",
+      "idMeal": "52895",
+      "strMeal": "English Breakfast",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/utxryw1511721587.jpg"
+    },
+    {
+      "id": "52961",
+      "idMeal": "52961",
+      "strMeal": "Budino Di Ricotta",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/1549542877.jpg"
+    },
+    {
+      "id": "52908",
+      "idMeal": "52908",
+      "strMeal": "Ratatouille",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/wrpwuu1511786491.jpg"
+    }
+  ]
+}

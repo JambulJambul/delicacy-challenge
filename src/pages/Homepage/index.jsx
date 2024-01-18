@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react"
-import { Box, Typography, Stack, Button } from "@mui/material"
+import { Box, Typography, Stack, Button, createTheme, useTheme, ThemeProvider } from "@mui/material"
 import { Link, useParams } from "react-router-dom"
+import { useState, useEffect } from "react"
 
 import { callAPI } from "../../domain/api"
+import { callJSONServerAPI } from "../../domain/json-server-api"
+
 import Navbar from "../../components/Navbar"
 import Categories from "./components/Categories"
 import MainCard from "../../components/MainCard"
@@ -15,6 +17,12 @@ const Homepage = () => {
     const [randomData, setRandomData] = useState();
     const [category, setCategory] = useState();
     const { strCategory } = useParams();
+
+    const theme = createTheme({
+        typography: {
+            fontFamily: "Archivo Narrow, roboto, sans-serif",
+        },
+    });
 
     useEffect(() => {
         fetchData();
@@ -34,8 +42,10 @@ const Homepage = () => {
             const modifiedResponse = slicedResponse?.map(async (item) => {
                 const responseById = await callAPI(`/lookup.php?i=${item.idMeal}`, 'GET');
                 const { idMeal, strInstructions, strMeal, strCategory, strMealThumb, strIngredient1, strIngredient2, strIngredient3, strIngredient4, strMeasure1, strMeasure2, strMeasure3, strMeasure4 } = responseById.meals[0]
+                const responseJSONServer = await callJSONServerAPI(`/posts`, 'GET')
+                const isFavorite = responseJSONServer.some(item => item.idMeal == idMeal);
                 return {
-                    idMeal, strInstructions, strMeal, strCategory, strMealThumb, strIngredient1, strIngredient2, strIngredient3, strIngredient4, strMeasure1, strMeasure2, strMeasure3, strMeasure4
+                    isFavorite, idMeal, strInstructions, strMeal, strCategory, strMealThumb, strIngredient1, strIngredient2, strIngredient3, strIngredient4, strMeasure1, strMeasure2, strMeasure3, strMeasure4
                 }
             })
             const finalResponse = await Promise.all(modifiedResponse)
@@ -51,11 +61,13 @@ const Homepage = () => {
             const modifiedData = [];
             while (modifiedData.length < numberOfItemsToFetch) {
                 const responseRandomMenu = await callAPI('/random.php', 'GET');
-                const randomMenu = responseRandomMenu.meals?.map((item) => ({
-                    idMeal: item.idMeal,
-                    strMeal: item.strMeal,
-                    strMealThumb: item.strMealThumb
-                }))
+                const randomMenu = responseRandomMenu.meals?.map((item) => {
+                    return {
+                        idMeal: item.idMeal,
+                        strMeal: item.strMeal,
+                        strMealThumb: item.strMealThumb
+                    }
+                })
                 modifiedData.push(randomMenu)
             }
             setRandomData(modifiedData)
@@ -88,69 +100,77 @@ const Homepage = () => {
 
     return (
         <>
-            <Box>
-                <Navbar></Navbar>
-                <Box pl={10} pt={2}>
-                    <Box pr={10}>
-                        <Stack direction={"row"} gap={5}>
-                            {categoryIsEmpty ? (
-                                <>
-                                    {category?.map((item) => (
-                                        <>
-                                            <Categories data={item}></Categories>
-                                        </>
-                                    ))}
-                                </>
-                            ) : (
-                                <>
-                                </>
-                            )}
-                            <Button variant="text"><Typography variant="p">Favorite</Typography></Button>
-                        </Stack>
-                    </Box>
-                    {dataIsEmpty ? (
-                        <>
-                            <Box pt={2} pr={10} className={classes["main-card-flex"]}>
-                                {data?.map((item) => (
+            <ThemeProvider theme={theme}>
+                <Box className={classes["wrapper"]}>
+                    <Navbar></Navbar>
+                    <Box pl={10} pt={2}>
+                        <Box pr={10}>
+                            <Stack direction={"row"} gap={5}>
+                                {categoryIsEmpty ? (
                                     <>
-                                        <MainCard data={item} withDetail={true}></MainCard>
-                                        <Box ml={6}></Box>
-                                    </>
-                                ))}
-                            </Box>
-                        </>
-                    ) : (
-                        <>
-                            <Typography variant="h4">Loading...</Typography>
-                        </>
-                    )}
-                    <Box pr={10} mt={4}>
-                        <Typography variant="h5">
-                            More Recipies
-                        </Typography>
-                        <Box mt={2}>
-                            <Stack direction={"row"} justifyContent={"space-between"}>
-                                {randomDataIsEmpty ? (
-                                    <>
-                                        {randomData?.map((item) => (
+                                        {category?.map((item) => (
                                             <>
-                                                <Link to={`/details/${item.idMeal}`}
-                                                    key={item.idMeal}>
-                                                    <SmallCard data={item} withFavorite={false}></SmallCard>
-                                                </Link>
+                                                <Categories data={item}></Categories>
                                             </>
                                         ))}
                                     </>
                                 ) : (
                                     <>
-                                        <Typography variant="h4">Loading...</Typography>
                                     </>
                                 )}
+                                <Link to={`/favorites`}>
+                                    <Button variant="text">
+                                        <Typography variant="p" color={"#404040"}>
+                                            Favorite
+                                        </Typography>
+                                    </Button>
+                                </Link>
                             </Stack>
+                        </Box>
+                        {dataIsEmpty ? (
+                            <>
+                                <Box pt={2} pr={10} className={classes["main-card-flex"]}>
+                                    {data?.map((item) => (
+                                        <>
+                                            <MainCard data={item} withDetail={true}></MainCard>
+                                            <Box ml={6}></Box>
+                                        </>
+                                    ))}
+                                </Box>
+                            </>
+                        ) : (
+                            <>
+                                <Typography variant="h4">Loading...</Typography>
+                            </>
+                        )}
+                        <Box pr={10} mt={4}>
+                            <Typography variant="h5" color={"#404040"}>
+                                More Recipies
+                            </Typography>
+                            <Box mt={2}>
+                                <Stack direction={"row"} justifyContent={"space-between"}>
+                                    {randomDataIsEmpty ? (
+                                        <>
+                                            {randomData?.map((item) => (
+                                                <>
+                                                    <Link to={`/details/${item[0].idMeal}`}
+                                                        key={item[0].idMeal}>
+                                                        <SmallCard data={item} withFavorite={false}></SmallCard>
+                                                    </Link>
+                                                </>
+                                            ))}
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Typography variant="h4">Loading...</Typography>
+                                        </>
+                                    )}
+                                </Stack>
+                            </Box>
                         </Box>
                     </Box>
                 </Box>
-            </Box>
+            </ThemeProvider>
         </>
     )
 }
